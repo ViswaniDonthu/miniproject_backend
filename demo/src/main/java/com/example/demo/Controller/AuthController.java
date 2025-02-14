@@ -30,7 +30,9 @@ public class AuthController {
         if (loginObj != null) {
             long id = loginObj.getId();
             String token = jwtUtil.generateToken(loginObj);
-            return ResponseEntity.ok(Map.of("register_id", id, "token", token, "message", "You Logged in Successfully"));
+            String branch=loginObj.getBranch();
+            String name=loginObj.getUsername();
+            return ResponseEntity.ok(Map.of("register_id", id, "token", token,"email",email,"username",name,"branch",branch,"message", "You Logged in Successfully"));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "Invalid username or password."));
