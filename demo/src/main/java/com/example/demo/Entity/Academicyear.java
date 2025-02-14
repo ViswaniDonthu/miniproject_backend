@@ -38,10 +38,10 @@ public class Academicyear {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String yearRange; // Follow Java naming conventions (camelCase)
+    private String yearRange;
 
-    @OneToMany(mappedBy = "academicYear", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Batch> batches; // One academic year can have multiple batches
+//    @OneToMany(mappedBy = "academicYear", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Batch> batches;
 
     public Long getId() {
         return id;
@@ -59,11 +59,11 @@ public class Academicyear {
         this.yearRange = yearRange;
     }
 
-    public List<Batch> getBatches() {
-        return batches;
-    }
-
-    public void setBatches(List<Batch> batches) {
-        this.batches = batches;
-    }
+//    public List<Batch> getBatches() {
+//        return batches;
+//    }
+//
+//    public void setBatches(List<Batch> batches) {
+//        this.batches = batches;
+//    }
 }
