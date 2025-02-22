@@ -40,7 +40,7 @@ public class Academicyear {
 
     private String academicYear;
 
-    private String batch;
+    ;
 
     public Long getId() {
         return id;
@@ -58,12 +58,6 @@ public class Academicyear {
         this.academicYear = academicYear;
     }
 
-    public String getBatch() {
-        return batch;
-    }
 
-    public void setBatch(String batch) {
-        this.batch = batch;
-    }
 }
 

@@ -7,11 +7,10 @@ public class QuestionPaper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id")
-    private Subjects subject;
-
+ @ManyToOne(fetch=FetchType.LAZY)
+  private Academicyear academicyear;
+ @ManyToOne
+ private Subject subject;
     @Column(nullable = false)
     private String examType;
 
@@ -20,7 +19,30 @@ public class QuestionPaper {
     @JoinColumn(name="uploaded_id")
     private User uploadedBy;
 
-    // Getters and setters omitted for brevity
+    private boolean isaccepted;
+
+    public Academicyear getAcademicyear() {
+        return academicyear;
+    }
+
+    public void setAcademicyear(Academicyear academicyear) {
+        this.academicyear = academicyear;
+    }
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public boolean isIsaccepted() {
+        return isaccepted;
+    }
+
+    public void setIsaccepted(boolean isaccepted) {
+        this.isaccepted = isaccepted;
+    }
 
     public long getId() {
         return id;
@@ -30,13 +52,7 @@ public class QuestionPaper {
         this.id = id;
     }
 
-    public Subjects getSubject() {
-        return subject;
-    }
 
-    public void setSubject(Subjects subject) {
-        this.subject = subject;
-    }
 
     public String getExamType() {
         return examType;

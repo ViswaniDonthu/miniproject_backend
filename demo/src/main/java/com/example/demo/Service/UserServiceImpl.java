@@ -19,11 +19,6 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
     // Registering a new user with encoded password
     @Override
-//    public User registerNewUser(User user) {
-//        // Encoding the password before saving
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        return repo.save(user);
-//    }
     public User registerNewUser(User user) {
         String email = user.getEmail();
         String regex = "n(\\d{6})@rguktn\\.ac\\.in"; // Pattern for valid email
@@ -42,19 +37,6 @@ public class UserServiceImpl implements UserService {
     }
     // Handling user login
     @Override
-//    public User loginUser(String email, String password) {
-//        Optional<User> user = repo.findByEmail(email);
-//
-//        if (user.isPresent()) {
-//            boolean passwordMatches = passwordEncoder.matches(password, user.get().getPassword());
-//            if (passwordMatches) {
-//                return user.get(); // Return the user if authentication is successful
-//            }
-//            throw new RuntimeException("Invalid username or password");
-//        } else {
-//            throw new UsernameNotFoundException("User not found for email: " + email);
-//        }
-//    }
 
     public User loginUser(String email, String password) {
         // Validate email format
@@ -107,9 +89,13 @@ public class UserServiceImpl implements UserService {
     public Boolean checkMailPresent(String mail) {
         mail = mail.trim().toLowerCase();
         Optional<User> user = repo.findByEmail(mail);
-        if (user.isEmpty()) {
-            return false;
-        }
-        return true;
+        return user.isPresent();
     }
+
+    @Override
+    public User getUserId(String email) {
+        return repo.findByEmail(email).orElse(null);
+    }
+
+
 }

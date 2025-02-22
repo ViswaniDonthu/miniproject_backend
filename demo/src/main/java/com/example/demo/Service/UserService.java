@@ -8,5 +8,5 @@ public interface UserService {
     String getUsernameByRegisterId(long register_id);
     Boolean checkMailPresent(String mail);
 
-
+    User getUserId(String email);
 }
