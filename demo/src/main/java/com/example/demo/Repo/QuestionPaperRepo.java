@@ -3,8 +3,14 @@ package com.example.demo.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.Entity.QuestionPaper;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface QuestionPaperRepo extends JpaRepository<QuestionPaper, Long> {
+import java.util.List;
+
+
+public interface QuestionPaperRepo extends JpaRepository<QuestionPaper, Long>, JpaSpecificationExecutor<QuestionPaper> {
+
+
+
 
 }
-

@@ -5,11 +5,13 @@ import com.example.demo.Entity.*;
 import com.example.demo.Repo.UserRepo;
 import com.example.demo.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -47,6 +49,10 @@ public class UploadController {
             Branch branchno=branchservice.findBranchId(branch,sem);
              Subject subjectid=subjectservice.findBySubjectId(subject,branchno);
              User userid=userservice.getUserId(email);
+             if(Objects.equals(userid.getEmail(), " ")){
+                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                         .body(Map.of("message", "please login to upload files."));
+             }
              Academicyear academicyearid=academicyearservice.findYearId(academicYear);
           QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType,userid);
          return ResponseEntity.ok(savedPaper);

@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,16 +8,19 @@ public class QuestionPaper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
- @ManyToOne(fetch=FetchType.LAZY)
+ @OneToOne(fetch=FetchType.LAZY)
+ @JsonIgnore
   private Academicyear academicyear;
  @ManyToOne
  private Subject subject;
     @Column(nullable = false)
+    @JsonIgnore
     private String examType;
 
     private String fileUrl;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="uploaded_id")
+    @JsonIgnore
     private User uploadedBy;
 
     private boolean isaccepted;
@@ -24,6 +28,8 @@ public class QuestionPaper {
     public Academicyear getAcademicyear() {
         return academicyear;
     }
+
+
 
     public void setAcademicyear(Academicyear academicyear) {
         this.academicyear = academicyear;
