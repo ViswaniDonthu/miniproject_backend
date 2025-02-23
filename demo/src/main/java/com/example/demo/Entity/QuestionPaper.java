@@ -8,7 +8,7 @@ public class QuestionPaper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
- @OneToOne(fetch=FetchType.LAZY)
+ @ManyToOne(fetch=FetchType.LAZY)
  @JsonIgnore
   private Academicyear academicyear;
  @ManyToOne
