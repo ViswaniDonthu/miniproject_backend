@@ -19,7 +19,7 @@ public class EmailConfiguration {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
         mailSender.setUsername("donthuviswani@gmail.com");
-        mailSender.setPassword("uzkd wlxt ttlo bkux");
+        mailSender.setPassword("pfqr unak qncj dkbk");
 
         // Enabling STARTTLS
         mailSender.getJavaMailProperties().put("mail.smtp.auth", "true");

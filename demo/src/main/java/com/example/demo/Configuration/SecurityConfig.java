@@ -93,7 +93,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())  // Disable CSRF protection
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/user/register", "/emailcheck","/auth/verify","/uploads/upload","/questionpapers/filter").permitAll()  // Public endpoints
+                        .requestMatchers("/auth/login", "/user/register","/queryemail", "/emailcheck","/auth/verify","/uploads/upload","/questionpapers/filter","/sendemail").permitAll()  // Public endpoints
                         .anyRequest().authenticated()  // All other routes require authentication
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Enable CORS

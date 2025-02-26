@@ -30,7 +30,7 @@ public class EmailController {
 
             // Generate OTP for the user
             String otp = otpService.generateOtp(email);
-
+              System.out.println(otp);
             // Send OTP via email (assuming emailService is already configured)
             emailService.sendSimpleEmail(email, "OTP Verification", "Your OTP is: " + otp);
 

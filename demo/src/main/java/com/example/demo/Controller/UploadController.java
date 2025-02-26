@@ -27,6 +27,8 @@ public class UploadController {
     @Autowired
     private UserServiceImpl userservice;
     @Autowired
+    private AuthController authcontroller;
+    @Autowired
     private AcademicServiceImpl academicyearservice;
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
@@ -36,8 +38,14 @@ public class UploadController {
                                         @RequestParam("type") String examType,
                                         @RequestParam("batch")String batch,
                                         @RequestParam("sem")int sem,
-                                        @RequestParam("email")String email)
+                                        @RequestParam("email")String email,
+                                        @RequestBody  Map<String, String> requestData)
             throws IOException {
+        ResponseEntity<?> response = authcontroller.verifyToken(requestData);
+        Map<?, ?> responseBody = (Map<?, ?>) response.getBody();
+        if(responseBody.containsKey("ok")&&Boolean.FALSE.equals(responseBody.get("ok"))){
+            return ResponseEntity.ok(Map.of("message","please login"));
+        }
         if(Objects.equals(batch, "E2")){
             sem+=2;
         }else if(Objects.equals(batch,"E3")){
@@ -56,6 +64,5 @@ public class UploadController {
              Academicyear academicyearid=academicyearservice.findYearId(academicYear);
           QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType,userid);
          return ResponseEntity.ok(savedPaper);
-
     }
 }

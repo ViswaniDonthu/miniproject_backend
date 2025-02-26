@@ -59,7 +59,6 @@ public class AuthController {
 public ResponseEntity<?> verifyToken(@RequestBody Map<String, String> requestData) {
     String token = requestData.get("token");
     System.out.println("Received Token: " + token);
-
     if (token == null || token.isEmpty()) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("message", "Token is required"));
@@ -73,11 +72,12 @@ public ResponseEntity<?> verifyToken(@RequestBody Map<String, String> requestDat
                 "name", extractedUser.getUsername(),
                 "email", extractedUser.getEmail(),
                 "branch",extractedUser.getBranch(),
-                "message", "Token is valid"
+                "message", "Token is valid",
+                "ok",true
         ));
     } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "Invalid or expired token"));
+                .body(Map.of("message", "Invalid or expired token","ok",false));
     }
 }
 
