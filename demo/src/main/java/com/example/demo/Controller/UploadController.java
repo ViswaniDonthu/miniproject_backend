@@ -18,8 +18,8 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/uploads")
 public class UploadController {
-   @Autowired
-   private SubjectServiceImpl subjectservice;
+    @Autowired
+    private SubjectServiceImpl subjectservice;
     @Autowired
     private QuestionPaperService questionPaperService;
     @Autowired
@@ -30,39 +30,40 @@ public class UploadController {
     private AuthController authcontroller;
     @Autowired
     private AcademicServiceImpl academicyearservice;
-    @PostMapping("/upload")
+
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestParam("academicYear") String academicYear,
                                         @RequestParam("branch") String branch,
                                         @RequestParam("subject") String subject,
                                         @RequestParam("type") String examType,
-                                        @RequestParam("batch")String batch,
-                                        @RequestParam("sem")int sem,
-                                        @RequestParam("email")String email,
-                                        @RequestBody  Map<String, String> requestData)
-            throws IOException {
-        ResponseEntity<?> response = authcontroller.verifyToken(requestData);
+                                        @RequestParam("batch") String batch,
+                                        @RequestParam("sem") int sem,
+                                        @RequestParam("token") String token) throws IOException {
+
+        ResponseEntity<?> response = authcontroller.verifyToken(Map.of("token", token));
         Map<?, ?> responseBody = (Map<?, ?>) response.getBody();
-        if(responseBody.containsKey("ok")&&Boolean.FALSE.equals(responseBody.get("ok"))){
-            return ResponseEntity.ok(Map.of("message","please login"));
+
+        if (responseBody.containsKey("ok") && Boolean.FALSE.equals(responseBody.get("ok"))) {
+            return ResponseEntity.ok(Map.of("message", "please login"));
         }
-        if(Objects.equals(batch, "E2")){
-            sem+=2;
-        }else if(Objects.equals(batch,"E3")){
-            sem+=4;
+
+        String email = (String) responseBody.get("email");
+        if (Objects.equals(batch, "E2")) {
+            sem += 2;
+        } else if (Objects.equals(batch, "E3")) {
+            sem += 4;
+        } else if (Objects.equals(batch, "E4")) {
+            sem += 6;
         }
-        else if(Objects.equals(batch,"E4")){
-            sem+=6;
-        }
-            Branch branchno=branchservice.findBranchId(branch,sem);
-             Subject subjectid=subjectservice.findBySubjectId(subject,branchno);
-             User userid=userservice.getUserId(email);
-             if(Objects.equals(userid.getEmail(), " ")){
-                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                         .body(Map.of("message", "please login to upload files."));
-             }
-             Academicyear academicyearid=academicyearservice.findYearId(academicYear);
-          QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType,userid);
-         return ResponseEntity.ok(savedPaper);
+
+        Branch branchno = branchservice.findBranchId(branch, sem);
+        Subject subjectid = subjectservice.findBySubjectId(subject, branchno);
+        User userid = userservice.getUserId(email);
+
+        Academicyear academicyearid = academicyearservice.findYearId(academicYear);
+        QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType, userid);
+
+        return ResponseEntity.ok(savedPaper);
     }
 }
