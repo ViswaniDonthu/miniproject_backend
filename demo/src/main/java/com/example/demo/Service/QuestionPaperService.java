@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 @Service
 public class QuestionPaperService {
 
-    private static final String UPLOAD_DIR = "C:/Users/Raga Akshaya/Desktop/miniproject_backend/demo/src/main/resources/uploads/";
+    private static final String UPLOAD_DIR = "../../resources/uploads/";
 
     @Autowired
     private QuestionPaperRepo questionPaperRepository;
