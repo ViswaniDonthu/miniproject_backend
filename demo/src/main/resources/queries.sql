@@ -102,15 +102,13 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Open Elective-3', '22XX41XX', 23),
 ('Summer Internship Project', '22EE4190', 23);
 
-
-
 INSERT INTO question_paper (id,subject_id, exam_type, academicyear_id, file_url, isaccepted, uploaded_id) VALUES
 -- Semester Exam Papers
-(4,1, 'semester', 7, 'path/to/file1.pdf', FALSE, 1),
-(5,2, 'semester', 2, 'path/to/file2.pdf', FALSE, 1),
-(6,3, 'supply', 3, 'path/to/file3.pdf', FALSE, 1),
-(7,4, 'semester', 4, 'path/to/file4.pdf', FALSE, 1),
-(8,5, 'supply', 5, 'path/to/file5.pdf', FALSE, 1),
+(4,1, 'semester', 7, "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploadsquestionpaper.pdf", FALSE, 1),
+(5,2, 'semester', 2, "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploadsquestionpaper.pdf", FALSE, 1),
+(6,3, 'supply', 3, "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploadsquestionpaper.pdf", FALSE, 1),
+(7,4, 'semester', 4, "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploadsquestionpaper.pdf", FALSE, 1),
+(8,5, 'supply', 5, "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploadsquestionpaper.pdf", FALSE, 1),
 -- Semester Exam Papers
 (9,3, 'semester', 4, 'path/to/file11.pdf', FALSE, 1),
 (10,3, 'semester', 2, 'path/to/file2.pdf', FALSE, 1),

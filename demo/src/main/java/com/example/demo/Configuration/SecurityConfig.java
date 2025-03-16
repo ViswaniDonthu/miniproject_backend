@@ -93,7 +93,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())  // Disable CSRF protection
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/user/register","/queryemail", "/emailcheck","/auth/verify","/uploads/upload","/questionpapers/filter","/sendemail").permitAll()  // Public endpoints
+                        .requestMatchers("/auth/login","/approvedpapers","/handleapprove", "/pendingpapers","/auth/admin_login","/auth/verify_admin","/user/register","/queryemail", "/emailcheck","/auth/verify","/uploads/upload","/questionpapers/filter","/sendemail").permitAll()  // Public endpoints
                         .anyRequest().authenticated()  // All other routes require authentication
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Enable CORS
@@ -104,10 +104,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));  // Frontend URL
+        configuration.setAllowedOrigins(Arrays.asList("*"));  // Frontend URL
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);  // Allow credentials (cookies, HTTP authentication)
+        configuration.setAllowCredentials(false);  // Allow credentials (cookies, HTTP authentication)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);  // Apply to all paths

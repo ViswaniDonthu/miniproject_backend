@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/uploads")
 public class UploadController {
@@ -47,7 +47,7 @@ public class UploadController {
         if (responseBody.containsKey("ok") && Boolean.FALSE.equals(responseBody.get("ok"))) {
             return ResponseEntity.ok(Map.of("message", "please login"));
         }
-
+         int semester=sem;
         String email = (String) responseBody.get("email");
         if (Objects.equals(batch, "E2")) {
             sem += 2;
@@ -62,7 +62,8 @@ public class UploadController {
         User userid = userservice.getUserId(email);
 
         Academicyear academicyearid = academicyearservice.findYearId(academicYear);
-        QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType, userid);
+        String filename=subject+"_"+branch+"_"+batch+"_"+"sem"+semester+"_"+examType+"_"+academicYear;
+        QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType, userid,filename);
 
         return ResponseEntity.ok(savedPaper);
     }

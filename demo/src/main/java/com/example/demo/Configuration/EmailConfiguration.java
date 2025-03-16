@@ -18,8 +18,8 @@ public class EmailConfiguration {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("donthuviswani@gmail.com");
-        mailSender.setPassword("pfqr unak qncj dkbk");
+        mailSender.setUsername("chanduchintalapudi9@gmail.com");
+        mailSender.setPassword("yyhp ridt zzfu zwaw");
 
         // Enabling STARTTLS
         mailSender.getJavaMailProperties().put("mail.smtp.auth", "true");

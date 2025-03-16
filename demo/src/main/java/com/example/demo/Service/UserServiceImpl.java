@@ -27,7 +27,8 @@ public class UserServiceImpl implements UserService {
         Matcher matcher = pattern.matcher(email);
 
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
+            return null;
+          //  throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
         }
 
         // Encrypt password before saving
@@ -45,7 +46,8 @@ public class UserServiceImpl implements UserService {
         Matcher matcher = pattern.matcher(email);
 
         if (!matcher.matches()) {
-            throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
+            return null;
+           // throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
         }
 
         Optional<User> user = repo.findByEmail(email);
@@ -69,9 +71,11 @@ public class UserServiceImpl implements UserService {
                 int yearDifference = currentYear - batchYear;
                 return user.get();
             }
-            throw new RuntimeException("Invalid username or password");
+          //  throw new RuntimeException("Invalid username or password");
+            return null;
         } else {
-            throw new UsernameNotFoundException("User not found for email: " + email);
+            return null;
+            //throw new UsernameNotFoundException("User not found for email: " + email);
         }
     }
 
