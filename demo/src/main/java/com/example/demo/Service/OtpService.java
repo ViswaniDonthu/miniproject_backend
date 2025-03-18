@@ -3,6 +3,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class OtpService {
@@ -17,9 +19,17 @@ public class OtpService {
     // Generate OTP for a given email
     public String generateOtp(String email) {
         if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email must not be null or empty.");
+            return "null";
         }
 
+        String regex = "n(\\d{6})@rguktn\\.ac\\.in";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+        if (!matcher.matches()) {
+            return "false";
+            // throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
+        }
         String otp = generateRandomOtp();
         otpStorage.put(email, otp);
 

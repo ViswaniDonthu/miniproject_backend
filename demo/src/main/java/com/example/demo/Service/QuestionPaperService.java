@@ -48,6 +48,9 @@ import com.example.demo.Entity.*;
 import com.example.demo.Repo.QuestionPaperRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,7 +64,7 @@ import java.util.Optional;
 @Service
 public class QuestionPaperService {
 
-    private static final String UPLOAD_DIR = "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploads/";
+    private static final String UPLOAD_DIR = "C:/Users/DELL/Desktop/MINIPROJECT/miniproject_backend/demo/src/main/resources/uploads/";
 
     @Autowired
     private QuestionPaperRepo questionPaperRepository;
@@ -95,10 +98,20 @@ public class QuestionPaperService {
 
         if (optionalPaper.isPresent()) {
             QuestionPaper paper = optionalPaper.get();
+            boolean exists = questionPaperRepository.existsByAcademicyearAndExamTypeAndSubjectAndIsaccepted(
+                    paper.getAcademicyear(),paper.getExamType(), paper.getSubject(),true
+            );
+
+            if (exists) {
+                System.out.println("yes exists..!");
+                return null;
+            }
+
             paper.setIsaccepted(accept); // Update isAccepted field
             return questionPaperRepository.save(paper); // Save updated entity
         } else {
             throw new EntityNotFoundException("Question Paper not found with id: " + id);
         }
     }
+
 }

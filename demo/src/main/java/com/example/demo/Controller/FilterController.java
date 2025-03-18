@@ -88,7 +88,66 @@ public ResponseEntity<List<Map<String, Object>>> getFilteredPapers(
         @RequestParam(required = false) List<String> branches,
         @RequestParam(required = false) List<Integer> semesters,
         @RequestParam(required = false) List<String> subjectNames,
-        @RequestParam(required = false) List<String> examTypes) {
+        @RequestParam(required = false) List<String> examTypes,
+        @RequestParam(required = false) List<String> batches) {
+//        if(!batches.isEmpty() && !semesters.isEmpty()) {
+//            Map<String, Integer> batchIncrement = new HashMap<>();
+//            batchIncrement.put("E1", 0);
+//            batchIncrement.put("E2", 2);
+//            batchIncrement.put("E3", 4);
+//            batchIncrement.put("E4", 6);
+//
+//            List<Integer> newSemesters = new ArrayList<>();
+//
+//            for (String batch : batches) {
+//                int increment = batchIncrement.getOrDefault(batch, 0);
+//                for (int sem : semesters) {
+//                    newSemesters.add(sem + increment);
+//                }
+//            }
+//            semesters=newSemesters;
+//        }else if(!semesters.isEmpty() && batches.isEmpty() ){
+//
+//        }else if(!batches.isEmpty() && semesters.isEmpty()){
+//
+//        }
+    Map<String, Integer> batchIncrement = new HashMap<>();
+    batchIncrement.put("E1", 0);
+    batchIncrement.put("E2", 2);
+    batchIncrement.put("E3", 4);
+    batchIncrement.put("E4", 6);
+
+    List<Integer> newSemesters = new ArrayList<>();
+
+    // Case 1: Both batches and semesters are provided
+    if (!batches.isEmpty() && !semesters.isEmpty()) {
+        for (String batch : batches) {
+            int increment = batchIncrement.getOrDefault(batch, 0);
+            for (int sem : semesters) {
+                newSemesters.add(sem + increment);
+            }
+        }
+        semesters=newSemesters;
+    }
+    // Case 2: Semesters provided, but batches are empty
+    else if (!semesters.isEmpty() && batches.isEmpty()) {
+        for (int sem : semesters) {
+            newSemesters.add(sem); // E1 case
+            newSemesters.add(sem + 2); // E2 case
+            newSemesters.add(sem + 4); // E3 case
+            newSemesters.add(sem + 6); // E4 case
+        }
+        semesters=newSemesters;
+    }
+    // Case 3: Batches provided, but semesters are empty
+    else if (!batches.isEmpty() && semesters.isEmpty()) {
+        for (String batch : batches) {
+            int increment = batchIncrement.getOrDefault(batch, 0);
+            newSemesters.add(increment + 1);
+            newSemesters.add(increment + 2);
+        }
+        semesters=newSemesters;
+    }
 
     List<QuestionPaper> papers = questionPaperRepository.findAll(
             QuestionPaperSpecification.filterByCriteria(academicYears, branches, semesters, subjectNames, examTypes,true));
@@ -103,6 +162,7 @@ public ResponseEntity<List<Map<String, Object>>> getFilteredPapers(
         fileMap.put("branch", paper.getSubject().getBranch().getBranch());
         fileMap.put("semester", paper.getSubject().getBranch().getSemester());
         fileMap.put("examType", paper.getExamType());
+
 
         try {
             File file = new File(paper.getFileUrl());

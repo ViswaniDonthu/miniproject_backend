@@ -4,16 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-//@Table( uniqueConstraints = @UniqueConstraint(columnNames = {"examType","academicyear_id","subject_id","isaccepted"}))
-public class QuestionPaper {
+public class RejectedPapers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
- @ManyToOne(fetch=FetchType.LAZY)
- @JsonIgnore
-  private Academicyear academicyear;
- @ManyToOne
- private Subject subject;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JsonIgnore
+    private Academicyear academicyear;
+    @ManyToOne
+    private Subject subject;
     @Column(nullable = false)
     @JsonIgnore
     private String examType;
@@ -23,14 +22,9 @@ public class QuestionPaper {
     @JoinColumn(name="uploaded_id")
     @JsonIgnore
     private User uploadedBy;
-
-    private boolean isaccepted;
-
     public Academicyear getAcademicyear() {
         return academicyear;
     }
-
-
 
     public void setAcademicyear(Academicyear academicyear) {
         this.academicyear = academicyear;
@@ -43,13 +37,6 @@ public class QuestionPaper {
         this.subject = subject;
     }
 
-    public boolean isIsaccepted() {
-        return isaccepted;
-    }
-
-    public void setIsaccepted(boolean isaccepted) {
-        this.isaccepted = isaccepted;
-    }
 
     public long getId() {
         return id;

@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class EmailService {
@@ -35,6 +37,9 @@ public class EmailService {
         javaMailSender.send(message);
         System.out.println("email sent to: " + to);
     }
+
+
+
     public void sendPasswordResetEmail(String toEmail, String resetLink) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);

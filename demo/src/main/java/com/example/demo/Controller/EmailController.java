@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -30,11 +31,18 @@ public class EmailController {
 
             // Generate OTP for the user
             String otp = otpService.generateOtp(email);
-              System.out.println(otp);
+              System.out.println("otp"+otp);
             // Send OTP via email (assuming emailService is already configured)
-            emailService.sendSimpleEmail(email, "OTP Verification", "Your OTP is: " + otp);
+            if(!Objects.equals(otp, "false")) {
+                emailService.sendSimpleEmail(email, "OTP Verification", "Your OTP is: " + otp);
 
-            return ResponseEntity.ok(Map.of("message", "OTP has been successfully sent to registered email."));
+                return ResponseEntity.ok(Map.of("ok",true,"message", "OTP has been successfully sent to registered email."));
+            }
+            else if(otp.equals("null")){
+                return ResponseEntity.ok(Map.of("ok",true,"message","enter email"));
+            }else{
+                return ResponseEntity.ok(Map.of("ok",true,"message", "please use collage mail"));
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("message", "Failed to send OTP to registered email."));
