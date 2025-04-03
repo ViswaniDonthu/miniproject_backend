@@ -2,8 +2,11 @@ package com.example.demo.Controller;
 
 import com.example.demo.Entity.QuestionPaper;
 import com.example.demo.Entity.RejectedPapers;
+
+import com.example.demo.Entity.User;
 import com.example.demo.Repo.QuestionPaperRepo;
 import com.example.demo.Repo.RejectedPaperRepo;
+import com.example.demo.Repo.UserRepo;
 import com.example.demo.Service.QuestionPaperService;
 import com.example.demo.Service.QuestionPaperSpecification;
 import com.example.demo.Service.RejectedPaperService;
@@ -34,6 +37,8 @@ public class QuestionPaperHandleController {
     private QuestionPaperRepo questionPaperRepository;
     @Autowired
     private RejectedPaperRepo rejectedPaperRepo;
+    @Autowired
+    private UserRepo repo;
   @Autowired
   private QuestionPaperService questionPaperService;
     @GetMapping("/pendingpapers")
@@ -190,7 +195,7 @@ public class QuestionPaperHandleController {
         return ResponseEntity.ok().body(q);
     }
    @PostMapping("/handleapprove")
-    public ResponseEntity<?> approvepapers(@RequestBody Map<String,String>payload){
+    public ResponseEntity<?> approvepaper(@RequestBody Map<String,String>payload){
         boolean isOk=false;
        ResponseEntity<?> response = controller.verifyAdminToken(payload);
        if (response.getStatusCode() == HttpStatus.OK) {
@@ -206,6 +211,11 @@ public class QuestionPaperHandleController {
        if(q==null){
            return ResponseEntity.ok(Map.of("message","question paper already exists"));
        }
+       System.out.println(q.getUploadedBy());
+       User u=q.getUploadedBy();
+
+       u.setContributions(u.getContributions()+1);
+       repo.save(u);
        return ResponseEntity.ok().body(q);
    }
 //    @DeleteMapping("/deletepaper/{id}")
