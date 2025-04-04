@@ -20,16 +20,16 @@ public class UserServiceImpl implements UserService {
     // Registering a new user with encoded password
     @Override
     public User registerNewUser(User user) {
-        String email = user.getEmail();
-        String regex = "n(\\d{6})@rguktn\\.ac\\.in"; // Pattern for valid email
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-
-        if (!matcher.matches()) {
-            return null;
-          //  throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
-        }
+//        String email = user.getEmail();
+//        String regex = "n(\\d{6})@rguktn\\.ac\\.in"; // Pattern for valid email
+//
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(email);
+//
+//        if (!matcher.matches()) {
+//            return null;
+//          //  throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
+//        }
 
         // Encrypt password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -41,14 +41,14 @@ public class UserServiceImpl implements UserService {
 
     public User loginUser(String email, String password) {
         // Validate email format
-        String regex = "n(\\d{6})@rguktn\\.ac\\.in";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-
-        if (!matcher.matches()) {
-            return null;
-           // throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
-        }
+//        String regex = "n(\\d{6})@rguktn\\.ac\\.in";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(email);
+//
+//        if (!matcher.matches()) {
+//            return null;
+//           // throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
+//        }
 
         Optional<User> user = repo.findByEmail(email);
 
@@ -57,18 +57,18 @@ public class UserServiceImpl implements UserService {
 
             if (passwordMatches) {
                 // Extract student ID (6 digits) and batch (first two digits)
-                String studentId = matcher.group(1);
-                String batch = studentId.substring(0, 2);
-
-                System.out.println("Student ID: " + studentId);
-                System.out.println("Batch: " + batch);
-                int batchYear = Integer.parseInt("20" + batch);
-
-                // Get the current year
-                int currentYear = Year.now().getValue();
-
-                // Calculate year difference
-                int yearDifference = currentYear - batchYear;
+//                String studentId = matcher.group(1);
+//                String batch = studentId.substring(0, 2);
+//
+//                System.out.println("Student ID: " + studentId);
+//                System.out.println("Batch: " + batch);
+//                int batchYear = Integer.parseInt("20" + batch);
+//
+//                // Get the current year
+//                int currentYear = Year.now().getValue();
+//
+//                // Calculate year difference
+//                int yearDifference = currentYear - batchYear;
                 return user.get();
             }
           //  throw new RuntimeException("Invalid username or password");

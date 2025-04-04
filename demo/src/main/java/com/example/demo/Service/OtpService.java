@@ -22,14 +22,14 @@ public class OtpService {
             return "null";
         }
 
-        String regex = "n(\\d{6})@rguktn\\.ac\\.in";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-
-        if (!matcher.matches()) {
-            return "false";
-            // throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
-        }
+//        String regex = "n(\\d{6})@rguktn\\.ac\\.in";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(email);
+//
+//        if (!matcher.matches()) {
+//            return "false";
+//            // throw new IllegalArgumentException("Invalid email format! Use 'nXXXXXX@rguktn.ac.in'");
+//        }
         String otp = generateRandomOtp();
         otpStorage.put(email, otp);
 

@@ -18,7 +18,7 @@ public class User {
     private String branch;
     private String resetToken;
     private int place;
-    private Long Contributions;
+    private Long contributions;
 
     public int getPlace() {
         return place;
@@ -29,15 +29,15 @@ public class User {
     }
 
     public Long getContributions() {
-        return Contributions;
+        return contributions;
     }
 
     public void setContributions(Long contributions) {
-        Contributions = contributions;
+        this.contributions = contributions;
     }
 
     public User() {
-    this.Contributions=0L;
+    this.contributions=0L;
     }
 
     public User(Long id, String username, String email, String password, String branch, String resetToken) {
