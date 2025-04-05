@@ -1,4 +1,5 @@
 package com.example.demo.Controller;
+import com.example.demo.Entity.User;
 import com.example.demo.Service.EmailService;
 import com.example.demo.Service.OtpService;
 import com.example.demo.Service.UserService;
@@ -20,13 +21,19 @@ public class EmailController {
     @Autowired
     private OtpService otpService;
 
-    @Autowired
-    private UserService userService;
+     @Autowired
+     private UserService service;
+
     // Endpoint to send OTP via email
     @PostMapping("/sendemail")
     public ResponseEntity<?> sendEmail(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        Boolean present=service.checkMailPresent(email);
+        if(present){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
         try {
-            String email = payload.get("email");
+
             System.out.println("Sending email to: " + email);
 
             // Generate OTP for the user
