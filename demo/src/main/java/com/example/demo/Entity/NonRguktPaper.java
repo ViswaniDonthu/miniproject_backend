@@ -26,7 +26,7 @@ public class NonRguktPaper {
     private User user;
 
     private boolean isAccepted;
-
+     private String collageName;
     // Constructors
     public NonRguktPaper() {}
 
@@ -41,7 +41,14 @@ public class NonRguktPaper {
         this.isAccepted = isAccepted;
     }
 
-    // Getters and Setters
+    public String getCollageName() {
+        return collageName;
+    }
+
+    public void setCollageName(String collageName) {
+        this.collageName = collageName;
+    }
+// Getters and Setters
 
     public Long getId() {
         return id;
