@@ -75,8 +75,10 @@ public class QuestionPaperSpecification {
             List<Integer> semesters,
             List<String> subjectNames,
             List<String> examTypes,
-            boolean isaccept
+            boolean isaccept,
+            List<String> Campus
     ) {
+        System.out.println("campus"+Campus);
         return (Root<QuestionPaper> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             Predicate predicate = cb.conjunction();
 
@@ -88,7 +90,9 @@ public class QuestionPaperSpecification {
                 Join<QuestionPaper, Academicyear> academicYearJoin = root.join("academicyear");
                 predicate = cb.and(predicate, academicYearJoin.get("academicYear").in(academicYears));
             }
-
+            if(Campus!=null && !Campus.isEmpty()){
+                predicate=cb.and(predicate,root.get("campus").in(Campus));
+            }
             // Filter by Branch
             if (branches != null && !branches.isEmpty()) {
                 Join<QuestionPaper, Subject> subjectJoin = root.join("subject");
@@ -113,6 +117,7 @@ public class QuestionPaperSpecification {
             if (examTypes != null && !examTypes.isEmpty()) {
                 predicate = cb.and(predicate, root.get("examType").in(examTypes));
             }
+
 
             return predicate;
         };

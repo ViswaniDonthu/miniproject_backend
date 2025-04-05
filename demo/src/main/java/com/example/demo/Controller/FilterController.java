@@ -89,7 +89,8 @@ public ResponseEntity<List<Map<String, Object>>> getFilteredPapers(
         @RequestParam(required = false) List<Integer> semesters,
         @RequestParam(required = false) List<String> subjectNames,
         @RequestParam(required = false) List<String> examTypes,
-        @RequestParam(required = false) List<String> batches) {
+        @RequestParam(required = false) List<String> batches,
+        @RequestParam(required=false) List<String> Campus) {
 //        if(!batches.isEmpty() && !semesters.isEmpty()) {
 //            Map<String, Integer> batchIncrement = new HashMap<>();
 //            batchIncrement.put("E1", 0);
@@ -150,7 +151,7 @@ public ResponseEntity<List<Map<String, Object>>> getFilteredPapers(
     }
 
     List<QuestionPaper> papers = questionPaperRepository.findAll(
-            QuestionPaperSpecification.filterByCriteria(academicYears, branches, semesters, subjectNames, examTypes,true));
+            QuestionPaperSpecification.filterByCriteria(academicYears, branches, semesters, subjectNames, examTypes,true,Campus));
 
     List<Map<String, Object>> fileDataList = new ArrayList<>();
 

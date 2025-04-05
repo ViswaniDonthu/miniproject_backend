@@ -9,6 +9,7 @@ public class QuestionPaper {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String campus;
  @ManyToOne(fetch=FetchType.LAZY)
  @JsonIgnore
   private Academicyear academicyear;
@@ -30,7 +31,13 @@ public class QuestionPaper {
         return academicyear;
     }
 
+    public String getCampus() {
+        return campus;
+    }
 
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
 
     public void setAcademicyear(Academicyear academicyear) {
         this.academicyear = academicyear;

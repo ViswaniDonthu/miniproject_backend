@@ -73,7 +73,7 @@ public class QuestionPaperHandleController {
     public ResponseEntity<?> handlepaperfilter(boolean isaccept, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
         Page<QuestionPaper> paperPage = questionPaperRepository.findAll(
-                QuestionPaperSpecification.filterByCriteria(null, null, null, null, null, isaccept),
+                QuestionPaperSpecification.filterByCriteria(null, null, null, null, null, isaccept,null),
                 pageable);
 
         List<Map<String, Object>> fileDataList = new ArrayList<>();

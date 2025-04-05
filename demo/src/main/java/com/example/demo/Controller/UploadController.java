@@ -38,6 +38,7 @@ public class UploadController {
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file,
                                         @RequestParam("academicYear") String academicYear,
+                                        @RequestParam("Campus") String campus,
                                         @RequestParam("branch") String branch,
                                         @RequestParam("subject") String subject,
                                         @RequestParam("type") String examType,
@@ -74,7 +75,7 @@ public class UploadController {
            return ResponseEntity.ok(Map.of("message","question paper already existed.."));
         }
         String filename=subject+"_"+branch+"_"+batch+"_"+"sem"+semester+"_"+examType+"_"+academicYear;
-        QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType, userid,filename);
+        QuestionPaper savedPaper = questionPaperService.saveQuestionPaper(file, academicyearid, subjectid, examType, userid,filename,campus);
 
         return ResponseEntity.ok(Map.of("message","file uploaded successfully","data",savedPaper));
     }

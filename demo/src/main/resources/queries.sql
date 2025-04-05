@@ -12,8 +12,6 @@ INSERT INTO Branch(branch, semester) VALUES
 ('PUC2', 1), ('PUC2', 2);
 
 INSERT INTO Academicyear (academicYear) VALUES
-('2008-2009'),
-('2009-2010'),
 ('2010-2011'),
 ('2011-2012'),
 ('2012-2013'),
@@ -113,7 +111,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Engineering Chemistry', '20CY1103', 25),
 ('Workshop Practice', '20ME1181', 25),
 ('Basic Electrical & Electronics Engineering Lab', '20EC1189', 25),
-('Engineering Physics & Chemistry Lab', '20BS1183', 25);
+('Engineering Physics & Chemistry Lab', '20BS1183', 25),
 
 
 -- Semester 2 (First Year)
@@ -124,7 +122,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Engineering Graphics and Computer Drafting', '20ME1214', 26),
 ('Programming and Data Structures Lab', '20CS1288', 26),
 ('Material Science and Metallurgy Lab', '20ME1281', 26),
-('Environmental Science', '20BE1201', 26);
+('Environmental Science', '20BE1201', 26),
 
 -- Semester 3 (Second Year - Semester 1)
 ('Transform Calculus', '20MA2103', 27),
@@ -133,7 +131,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Mechanics of Solids', '20ME2103', 27),
 ('Manufacturing Processes', '20ME2104', 27),
 ('Mechanics of Solids Lab', '20ME2181', 27),
-('Computer Aided Machine Drawing', '20ME2105', 27);
+('Computer Aided Machine Drawing', '20ME2105', 27),
 -- Semester 4
 
 ('Design of Machine Elements', '20ME2201', 28),
@@ -143,7 +141,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Probability and Statistics', '20MA2201', 28),
 ('Metal cutting and Machine Tools Lab', '20ME2281', 28),
 ('Fluid Mechanics & Hydraulic Machinery Lab', '20ME2282', 28),
-('Indian Constitution', '20HS2201', 28);
+('Indian Constitution', '20HS2201', 28),
 -- Semester 5
 
 ('Heat Transfer', '20ME3101', 29),
@@ -153,7 +151,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Metrology and Mechanical Measurements Lab', '20ME3181', 29),
 ('Heat Transfer Lab', '20ME3182', 29),
 ('Applied Thermodynamics Lab', '20ME3183', 29),
-('English Language Communication Skills Lab-II', '20EG3182', 29);
+('English Language Communication Skills Lab-II', '20EG3182', 29),
 
 -- Semester 6
 
@@ -164,13 +162,13 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Program Elective Course-2', '20ME32XX', 30),
 ('Computer Aided Modeling and Simulation Lab', '20ME3281', 30),
 ('English Language Communication Skills Lab-III', '20EG3283', 30),
-('Summer Internship', '20ME3291', 30);
+('Summer Internship', '20ME3291', 30),
 -- Semester 7
 
 ('Program Elective Course-3', '20ME41XX', 31),
 ('Open Elective Course-1', '20MX41XX', 31),
 ('Open Elective Course-2', '20MX41XX', 31),
-('Project', '20ME4192', 31);
+('Project', '20ME4192', 31),
 
 -- Semester 8
 
@@ -180,7 +178,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
 ('Community Service', '20ME42XX', 32),
 ('Project - 2', '20ME4293', 32);
 
-INSERT INTO subjects(subject_name, subject_code, branch_id) VALUES
+INSERT INTO subject(subject_name, subject_code, branch_id) VALUES
 ('Biology for Engineers', '20BE1102', 33),
 ('Physical and Organic Chemistry', '20CY1101', 33),
 ('Differential Equations and Multivariable Calculus', '20MA1101', 33),
@@ -325,7 +323,7 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
   ('Metal Joining and Non-Destructive Testing', '20MM3281', 46),
   ('Computational Materials Engineering Lab', '20MM3282', 46),
   ('Minor Project', '20MM3291', 46),
-  ('English Language Communications Skills Lab-3', '20EG3282', 46),
+  ('English Language Communications Skills Lab-3', '20EG3282', 46);
 
 -- Semester 7 (MME, Branch ID: 47)
 INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
@@ -333,21 +331,21 @@ INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
   ('Major Project - 1', '20MM4191', 47),
   ('Professional Elective Course-2', '20MM41XX', 47),
   ('Professional Elective Course-3', '20MM41XX', 47),
-  ('Open Elective Course - 2', '20YY41XX', 47),
+  ('Open Elective Course - 2', '20YY41XX', 47);
 
 -- Semester 8 (MME, Branch ID: 48)
 INSERT INTO Subject(subject_name, subject_code, branch_id) VALUES
   ('Major Project - 2', '20MM4291', 48),
-  ('Professional Elective Course-4', '20MM42XX', 48);
+  ('Professional Elective Course-4', '20MM42XX', 48),
  ('Open Elective Course - 3', '20YY42XX', 48),
  ('Open Elective Course - 4', '20YY42XX', 48),
- ('Indian Community Services', '20HS4299', 48),
+ ('Indian Community Services', '20HS4299', 48);
 
 
 
 
 
-INSERT INTO subjects(subject_name, subject_code, branch_id) VALUES
+INSERT INTO subject(subject_name, subject_code, branch_id) VALUES
 -- Semester 1(Civil - E1)
 ('Engineering Chemistry', '20CY1102', 49),
 ('Differential Equations and Multivariable Calculus', '20MA1101', 49),
@@ -437,8 +435,4 @@ INSERT INTO question_paper (id,subject_id, exam_type, academicyear_id, file_url,
 (11,1, 'supply', 3, 'path/to/file3.pdf', FALSE, 1),
 (12,2, 'semester', 4, 'path/to/file4.pdf', FALSE, 1),
 (13,3, 'supply', 5, 'path/to/file5.pdf', FALSE, 1)
-
-
-
-
 

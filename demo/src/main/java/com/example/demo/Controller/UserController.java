@@ -18,6 +18,10 @@ public class UserController {
     private UserService service;
     @PostMapping("/register")
     public ResponseEntity<?> addNewUser(@RequestBody User user) {
+        Boolean present=service.checkMailPresent(user.getEmail());
+        if(present){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
         User addUser = service.registerNewUser(user);
         if (addUser != null) {
             return ResponseEntity.ok(Map.of("message", "New User has been successfully registered."));

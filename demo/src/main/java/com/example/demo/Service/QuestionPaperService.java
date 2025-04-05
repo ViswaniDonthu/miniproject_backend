@@ -73,7 +73,7 @@ import java.util.Optional;
 @Service
 public class QuestionPaperService {
 
-    private static final String UPLOAD_DIR = "C:/Users/DELL/Desktop/MINIPROJECT/miniproject_backend/demo/src/main/resources/uploads/";
+    private static final String UPLOAD_DIR = "C:/Users/donth/Desktop/miniproject_backend/demo/src/main/resources/uploads/";
 
     @Autowired
     private QuestionPaperRepo questionPaperRepository;
@@ -103,7 +103,7 @@ public class QuestionPaperService {
 //    }
     @Transactional
     public QuestionPaper saveQuestionPaper(MultipartFile file, Academicyear academicyearid, Subject subjectid,
-                                           String examType, User userid, String filename) throws IOException {
+                                           String examType, User userid, String filename,String campus) throws IOException {
 
         // Ensure upload directory exists
         Files.createDirectories(Paths.get(UPLOAD_DIR));
@@ -124,7 +124,7 @@ public class QuestionPaperService {
         questionPaper.setAcademicyear(academicyearid);
         questionPaper.setSubject(subjectid);
         questionPaper.setUploadedBy(userid);
-
+        questionPaper.setCampus(campus);
         return questionPaperRepository.save(questionPaper);
     }
 
