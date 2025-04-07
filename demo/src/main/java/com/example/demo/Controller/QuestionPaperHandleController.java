@@ -3,13 +3,15 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.QuestionPaper;
 import com.example.demo.Entity.RejectedPapers;
 
-import com.example.demo.Entity.User;
+
+import com.example.demo.Model.UserDTO;
 import com.example.demo.Repo.QuestionPaperRepo;
 import com.example.demo.Repo.RejectedPaperRepo;
-import com.example.demo.Repo.UserRepo;
+
 import com.example.demo.Service.QuestionPaperService;
 import com.example.demo.Service.QuestionPaperSpecification;
 import com.example.demo.Service.RejectedPaperService;
+import com.example.demo.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,14 +33,16 @@ import java.util.*;
 public class QuestionPaperHandleController {
     @Autowired
     private RejectedPaperService rejectedPaperService;
-    @Autowired
-    private AuthController controller;
+//    @Autowired
+//    private AuthController controller;
     @Autowired
     private QuestionPaperRepo questionPaperRepository;
     @Autowired
     private RejectedPaperRepo rejectedPaperRepo;
+//    @Autowired
+//    private UserRepo repo;
     @Autowired
-    private UserRepo repo;
+    private UserClient userClient;
   @Autowired
   private QuestionPaperService questionPaperService;
     @GetMapping("/pendingpapers")
@@ -50,7 +54,8 @@ public class QuestionPaperHandleController {
         // Assuming verifyAdminToken expects a Map, wrap token in a Map
         Map<String, String> payload = new HashMap<>();
         payload.put("token", token.replace("Bearer ", ""));
-        ResponseEntity<?> response = controller.verifyAdminToken(payload);
+        ResponseEntity<?> response =userClient.verifyAdminToken(payload);
+
         if (response.getStatusCode() == HttpStatus.OK) {
             Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
             isOk = (boolean) responseBody.get("ok");
@@ -125,7 +130,7 @@ public class QuestionPaperHandleController {
        // Assuming verifyAdminToken expects a Map, wrap token in a Map
        Map<String, String> payload = new HashMap<>();
        payload.put("token", token.replace("Bearer ", ""));
-       ResponseEntity<?> response1= controller.verifyAdminToken(payload);
+       ResponseEntity<?> response1= userClient.verifyAdminToken(payload);
        if (response1.getStatusCode() == HttpStatus.OK) {
            Map<String, Object> responseBody = (Map<String, Object>) response1.getBody();
            isOk = (boolean) responseBody.get("ok");
@@ -181,7 +186,7 @@ public class QuestionPaperHandleController {
     public ResponseEntity<?> rejectpapers(@RequestBody Map<String,String> payload){
         System.out.println("in reject papers");
         boolean isOk=false;
-        ResponseEntity<?> response = controller.verifyAdminToken(payload);
+        ResponseEntity<?> response = userClient.verifyAdminToken(payload);
         if (response.getStatusCode() == HttpStatus.OK) {
             Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
             isOk = (boolean) responseBody.get("ok");
@@ -197,7 +202,7 @@ public class QuestionPaperHandleController {
    @PostMapping("/handleapprove")
     public ResponseEntity<?> approvepaper(@RequestBody Map<String,String>payload){
         boolean isOk=false;
-       ResponseEntity<?> response = controller.verifyAdminToken(payload);
+       ResponseEntity<?> response = userClient.verifyAdminToken(payload);
        if (response.getStatusCode() == HttpStatus.OK) {
            Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
            isOk = (boolean) responseBody.get("ok");
@@ -212,10 +217,10 @@ public class QuestionPaperHandleController {
            return ResponseEntity.ok(Map.of("message","question paper already exists"));
        }
        System.out.println(q.getUploadedBy());
-       User u=q.getUploadedBy();
+       UserDTO u=q.getUploadedByUser();
 
        u.setContributions(u.getContributions()+1);
-       repo.save(u);
+       userClient.saveUser(u);
        return ResponseEntity.ok().body(q);
    }
 //    @DeleteMapping("/deletepaper/{id}")

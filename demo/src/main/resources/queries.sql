@@ -11,7 +11,7 @@ INSERT INTO Branch(branch, semester) VALUES
 ('PUC1', 1), ('PUC1', 2),
 ('PUC2', 1), ('PUC2', 2);
 
-INSERT INTO Academicyear (academicYear) VALUES
+INSERT INTO Academicyear (academic_year) VALUES
 ('2010-2011'),
 ('2011-2012'),
 ('2012-2013'),

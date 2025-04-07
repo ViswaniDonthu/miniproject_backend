@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.example.demo.Model.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -20,10 +21,16 @@ public class QuestionPaper {
     private String examType;
 
     private String fileUrl;
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="uploaded_id")
-    @JsonIgnore
-    private User uploadedBy;
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name="uploaded_id")
+//    @JsonIgnore
+//    private User uploadedBy;
+@Column(name = "uploaded_id")
+private Long uploadedBy;
+
+    @Transient
+    private UserDTO uploadedByUser; // Used for response only
+
 
     private boolean isaccepted;
 
@@ -96,15 +103,25 @@ public class QuestionPaper {
         return fileUrl;
     }
 
+    public Long getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedByUserId(Long uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public UserDTO getUploadedByUser() {
+        return uploadedByUser;
+    }
+
+    public void setUploadedByUser(UserDTO uploadedByUser) {
+        this.uploadedByUser = uploadedByUser;
+    }
+
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
 
-    public User getUploadedBy() {
-        return uploadedBy;
-    }
 
-    public void setUploadedBy(User uploadedBy) {
-        this.uploadedBy = uploadedBy;
-    }
 }

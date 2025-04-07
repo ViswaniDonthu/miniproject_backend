@@ -60,7 +60,7 @@
 
 package com.example.demo.Configuration;
 
-import com.example.demo.Security.JwtFilter;
+//import com.example.demo.Security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -89,15 +89,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())  // Disable CSRF protection
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/uploads/adminupload","/deletepaper/{id}","/getrejectedpapers","/otpverify","/rejectpapers","/auth/login","/approvedpapers","/handleapprove", "/pendingpapers","/auth/admin_login","/auth/verify_admin","/user/register","/queryemail", "/emailcheck","/auth/verify","/uploads/upload","/questionpapers/filter","/sendemail","/rewards").permitAll()  // Public endpoints
                         .anyRequest().authenticated()  // All other routes require authentication
                 )
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Enable CORS
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);  // JWT filter
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())); // Enable CORS
+             //  .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);  // JWT filter
         return http.build();
     }
 

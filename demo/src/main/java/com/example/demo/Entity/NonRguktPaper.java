@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.example.demo.Model.UserDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,7 +12,7 @@ public class NonRguktPaper {
 
     private String subjectName;
 
-    private String semester;
+    private Integer semester;
 
     private String branch;
 
@@ -20,17 +21,18 @@ public class NonRguktPaper {
     private String examType;
 
     private String fileUrl;
+    @Column(name = "uploaded_id")
+    private Long uploadedBy;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Transient
+    private UserDTO user;
 
     private boolean isAccepted;
      private String collageName;
     // Constructors
     public NonRguktPaper() {}
 
-    public NonRguktPaper(String subjectName, String semester, String branch, String academicYear, String examType, String fileUrl, User user, boolean isAccepted) {
+    public NonRguktPaper(String subjectName, Integer semester, String branch, String academicYear, String examType, String fileUrl, UserDTO user, boolean isAccepted) {
         this.subjectName = subjectName;
         this.semester = semester;
         this.branch = branch;
@@ -66,11 +68,11 @@ public class NonRguktPaper {
         this.subjectName = subjectName;
     }
 
-    public String getSemester() {
+    public Integer getSemester() {
         return semester;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(Integer semester) {
         this.semester = semester;
     }
 
@@ -106,11 +108,11 @@ public class NonRguktPaper {
         this.fileUrl = fileUrl;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
@@ -120,5 +122,13 @@ public class NonRguktPaper {
 
     public void setAccepted(boolean accepted) {
         isAccepted = accepted;
+    }
+
+    public Long getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(Long uploadedBy) {
+        this.uploadedBy = uploadedBy;
     }
 }

@@ -1,50 +1,9 @@
-//package com.example.demo.Service;
-//
-//
-//
-//import com.example.demo.Entity.*;
-//import com.example.demo.Repo.QuestionPaperRepo;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import org.springframework.web.multipart.MultipartFile;
-//
-//import java.io.File;
-//import java.io.IOException;
-//import java.nio.file.Files;
-//import java.nio.file.Paths;
-//
-//@Service
-//public class QuestionPaperService {
-//
-//    private static final String UPLOAD_DIR = "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploads/";
-//
-//    @Autowired
-//    private QuestionPaperRepo questionPaperRepository;
-//@Transactional
-//    public QuestionPaper saveQuestionPaper(MultipartFile file, Academicyear academicyearid, Subject subjectid, String examType, User userid, String filename) throws IOException {
-//        // Ensure upload directory exists
-//        Files.createDirectories(Paths.get(UPLOAD_DIR));
-//
-//
-//        // Save file
-//        String filePath = UPLOAD_DIR + file.getOriginalFilename();
-//        file.transferTo(new File(filePath));
-//        // Create QuestionPaper entity
-//        QuestionPaper questionPaper = new QuestionPaper();
-//        questionPaper.setFileUrl(filePath);
-//        questionPaper.setExamType(examType);
-//        questionPaper.setAcademicyear(academicyearid);
-//        questionPaper.setSubject(subjectid);
-//        questionPaper.setUploadedBy(userid);
-//        // Save metadata to DB
-//        return questionPaperRepository.save(questionPaper);
-//    }
-//}
-//
+
 package com.example.demo.Service;
 
 import com.example.demo.Entity.*;
+import com.example.demo.Model.UserDTO;
+import com.example.demo.Repo.NonRguktQuestionPaperRepo;
 import com.example.demo.Repo.QuestionPaperRepo;
 import com.itextpdf.kernel.colors.ColorConstants;
 import com.itextpdf.kernel.font.PdfFont;
@@ -55,7 +14,7 @@ import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.extgstate.PdfExtGState;
-
+import com.example.demo.Entity.NonRguktPaper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -77,6 +36,8 @@ public class QuestionPaperService {
 
     @Autowired
     private QuestionPaperRepo questionPaperRepository;
+  @Autowired
+  private NonRguktQuestionPaperRepo repo;
 
     //    @Transactional
 //    public QuestionPaper saveQuestionPaper(MultipartFile file, Academicyear academicyearid, Subject subjectid,
@@ -103,7 +64,7 @@ public class QuestionPaperService {
 //    }
     @Transactional
     public QuestionPaper saveQuestionPaper(MultipartFile file, Academicyear academicyearid, Subject subjectid,
-                                           String examType, User userid, String filename,String campus) throws IOException {
+                                           String examType, UserDTO userid, String filename, String campus) throws IOException {
 
         // Ensure upload directory exists
         Files.createDirectories(Paths.get(UPLOAD_DIR));
@@ -123,7 +84,8 @@ public class QuestionPaperService {
         questionPaper.setExamType(examType);
         questionPaper.setAcademicyear(academicyearid);
         questionPaper.setSubject(subjectid);
-        questionPaper.setUploadedBy(userid);
+        questionPaper.setUploadedByUser(userid);
+        questionPaper.setUploadedByUserId(questionPaper.getUploadedByUser().getId());
         questionPaper.setCampus(campus);
         return questionPaperRepository.save(questionPaper);
     }
@@ -179,6 +141,31 @@ public class QuestionPaperService {
         } else {
             throw new EntityNotFoundException("Question Paper not found with id: " + id);
         }
+    }
+
+    public NonRguktPaper saveNonRguktQuestionPaper(MultipartFile file, String academicYear, String subject, String examType, UserDTO userDTO, String filename, String campus)throws IOException {
+        // Ensure upload directory exists
+        Files.createDirectories(Paths.get(UPLOAD_DIR));
+
+        // Construct file path
+        String filePath = UPLOAD_DIR + filename;
+
+        // Save the uploaded file
+        file.transferTo(new File(filePath));
+
+        // Apply watermark and overwrite the original file
+        addWatermark(filePath);
+
+        // Create and save QuestionPaper entity
+NonRguktPaper paper=new NonRguktPaper();
+       paper.setFileUrl(filePath);  // Overwritten file with watermark
+        paper.setExamType(examType);
+       paper.setAcademicYear(academicYear);
+        paper.setSubjectName(subject);
+        paper.setUser(userDTO);
+        paper.setUploadedBy(paper.getUser().getId());
+        paper.setCollageName(campus);
+        return repo.save(paper);
     }
 }
 
