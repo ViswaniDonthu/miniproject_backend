@@ -115,6 +115,9 @@ public class UploadController {
             return ResponseEntity.ok(Map.of("message","paper already existed.."));
         }
        QuestionPaper q1=questionPaperRepo.save(q);
+        UserDTO u=q1.getUploadedByUser();
+        u.setContributions(u.getContributions()+1);
+        userClient.saveUser(u);
        rejectedPaperService.deletequestionPaper(Long.parseLong(id));
         System.out.println("saved");
         return ResponseEntity.ok(Map.of("data",q1,"message","file uploaded successfully"));

@@ -32,8 +32,7 @@ import java.util.Optional;
 @Service
 public class QuestionPaperService {
 
-    private static final String UPLOAD_DIR = "C:/Users/donth/Desktop/miniproject_backend/demo/src/main/resources/uploads/";
-
+    private static final String UPLOAD_DIR = "C:/Users/DELL/Desktop/miniproject_backend/demo/src/main/resources/uploads/";
     @Autowired
     private QuestionPaperRepo questionPaperRepository;
   @Autowired
