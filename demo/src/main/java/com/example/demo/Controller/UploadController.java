@@ -89,7 +89,7 @@ public class UploadController {
         } else if (formtype.equalsIgnoreCase("nonrgukt")) {
             // Save the file and get the URL (same logic as your service)
             String filename = subject + "_" + branch + "_" + batch + "_" + "sem" + semester + "_" + examType + "_" + academicYear;
-            NonRguktPaper savedPaper = questionPaperService.saveNonRguktQuestionPaper(file, academicYear, subject, examType, userDTO, filename, campus);
+            NonRguktPaper savedPaper = questionPaperService.saveNonRguktQuestionPaper(file, academicYear, subject, examType, userDTO, filename, campus,semester,branch);
 
             return ResponseEntity.ok(Map.of("message", "Non-RGUKT paper uploaded", "data", savedPaper));
 

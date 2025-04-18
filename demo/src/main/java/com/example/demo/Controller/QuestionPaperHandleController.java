@@ -1,10 +1,12 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Entity.NonRguktPaper;
 import com.example.demo.Entity.QuestionPaper;
 import com.example.demo.Entity.RejectedPapers;
 
 
 import com.example.demo.Model.UserDTO;
+import com.example.demo.Repo.NonRguktQuestionPaperRepo;
 import com.example.demo.Repo.QuestionPaperRepo;
 import com.example.demo.Repo.RejectedPaperRepo;
 
@@ -39,8 +41,8 @@ public class QuestionPaperHandleController {
     private QuestionPaperRepo questionPaperRepository;
     @Autowired
     private RejectedPaperRepo rejectedPaperRepo;
-//    @Autowired
-//    private UserRepo repo;
+   @Autowired
+   private NonRguktQuestionPaperRepo nonRguktQuestionPaperRepo;
     @Autowired
     private UserClient userClient;
   @Autowired
@@ -74,15 +76,18 @@ public class QuestionPaperHandleController {
 
         return handlepaperfilter(true, page, size);
     }
-
     public ResponseEntity<?> handlepaperfilter(boolean isaccept, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
         Page<QuestionPaper> paperPage = questionPaperRepository.findAll(
-                QuestionPaperSpecification.filterByCriteria(null, null, null, null, null, isaccept,null),
+                QuestionPaperSpecification.filterByCriteria(null, null, null, null, null, isaccept, null),
                 pageable);
+
+        Page<NonRguktPaper> paperPage1 = nonRguktQuestionPaperRepo.findAllByIsAcceptedFalse(pageable);
 
         List<Map<String, Object>> fileDataList = new ArrayList<>();
 
+        // Add QuestionPaper entries
         for (QuestionPaper paper : paperPage.getContent()) {
             Map<String, Object> fileMap = new HashMap<>();
             fileMap.put("id", paper.getId());
@@ -112,14 +117,91 @@ public class QuestionPaperHandleController {
             fileDataList.add(fileMap);
         }
 
+        // Add NonRguktPaper entries
+        for (NonRguktPaper paper : paperPage1.getContent()) {
+            Map<String, Object> fileMap = new HashMap<>();
+            fileMap.put("id", paper.getId());
+            fileMap.put("subject", paper.getSubjectName());
+            fileMap.put("academicYear", paper.getAcademicYear());
+            fileMap.put("branch", paper.getBranch());
+            fileMap.put("semester", paper.getSemester());
+            fileMap.put("examType", paper.getExamType());
+            fileMap.put("status", "pending");
+
+            try {
+                File file = new File(paper.getFileUrl());
+                FileInputStream fis = new FileInputStream(file);
+                byte[] fileBytes = fis.readAllBytes();
+                fis.close();
+
+                String encodedFile = Base64.getEncoder().encodeToString(fileBytes);
+
+                fileMap.put("fileName", file.getName());
+                fileMap.put("fileData", encodedFile);
+            } catch (IOException e) {
+                System.out.println("File not found: " + paper.getFileUrl());
+                fileMap.put("fileName", "File not found");
+                fileMap.put("fileData", null);
+            }
+
+            fileDataList.add(fileMap);
+        }
+
         Map<String, Object> response = new HashMap<>();
         response.put("papers", fileDataList);
-        response.put("currentPage", paperPage.getNumber());
-        response.put("totalItems", paperPage.getTotalElements());
-        response.put("totalPages", paperPage.getTotalPages());
+        response.put("currentPage", page);  // Since you're mixing two sources, page from pageable is enough
+        response.put("totalItems", paperPage.getTotalElements() + paperPage1.getTotalElements());
+        response.put("totalPages", Math.max(paperPage.getTotalPages(), paperPage1.getTotalPages()));  // Optional logic
 
         return ResponseEntity.ok().body(response);
     }
+
+//    public ResponseEntity<?> handlepaperfilter(boolean isaccept, int page, int size) {
+//        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+//        Page<QuestionPaper> paperPage = questionPaperRepository.findAll(
+//                QuestionPaperSpecification.filterByCriteria(null, null, null, null, null, isaccept,null),
+//                pageable);
+//        Page<NonRguktPaper> paperPage1 = nonRguktQuestionPaperRepo.findAllByIsAcceptedFalse(pageable);
+//
+//        List<Map<String, Object>> fileDataList = new ArrayList<>();
+//
+//        for (QuestionPaper paper : paperPage.getContent()) {
+//            Map<String, Object> fileMap = new HashMap<>();
+//            fileMap.put("id", paper.getId());
+//            fileMap.put("subject", paper.getSubject().getSubjectName());
+//            fileMap.put("academicYear", paper.getAcademicyear().getAcademicYear());
+//            fileMap.put("branch", paper.getSubject().getBranch().getBranch());
+//            fileMap.put("semester", paper.getSubject().getBranch().getSemester());
+//            fileMap.put("examType", paper.getExamType());
+//            fileMap.put("status", "pending");
+//
+//            try {
+//                File file = new File(paper.getFileUrl());
+//                FileInputStream fis = new FileInputStream(file);
+//                byte[] fileBytes = fis.readAllBytes();
+//                fis.close();
+//
+//                String encodedFile = Base64.getEncoder().encodeToString(fileBytes);
+//
+//                fileMap.put("fileName", file.getName());
+//                fileMap.put("fileData", encodedFile);
+//            } catch (IOException e) {
+//                System.out.println("File not found: " + paper.getFileUrl());
+//                fileMap.put("fileName", "File not found");
+//                fileMap.put("fileData", null);
+//            }
+//
+//            fileDataList.add(fileMap);
+//        }
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("papers", fileDataList);
+//        response.put("currentPage", paperPage.getNumber());
+//        response.put("totalItems", paperPage.getTotalElements());
+//        response.put("totalPages", paperPage.getTotalPages());
+//
+//        return ResponseEntity.ok().body(response);
+//    }
 
    @GetMapping("/getrejectedpapers")
    public ResponseEntity<?> getrejectedpapers(@RequestHeader("Authorization") String token

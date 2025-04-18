@@ -120,7 +120,7 @@ public class QuestionPaperService {
         }
     }
 
-    public NonRguktPaper saveNonRguktQuestionPaper(MultipartFile file, String academicYear, String subject, String examType, UserDTO userDTO, String filename, String campus)throws IOException {
+    public NonRguktPaper saveNonRguktQuestionPaper(MultipartFile file, String academicYear, String subject, String examType, UserDTO userDTO, String filename, String campus,int semester,String branch)throws IOException {
         // Ensure upload directory exists
         Files.createDirectories(Paths.get(UPLOAD_DIR));
 
@@ -142,6 +142,8 @@ NonRguktPaper paper=new NonRguktPaper();
         paper.setUser(userDTO);
         paper.setUploadedBy(paper.getUser().getId());
         paper.setCollageName(campus);
+        paper.setBranch(branch);
+        paper.setSemester(semester);
         return repo.save(paper);
     }
 }
