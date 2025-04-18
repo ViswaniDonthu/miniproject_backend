@@ -119,6 +119,26 @@ public class QuestionPaperService {
             throw new EntityNotFoundException("Question Paper not found with id: " + id);
         }
     }
+    public NonRguktPaper updateStatusNonRgukt(Long id, boolean accept) {
+        Optional<NonRguktPaper> optionalPaper = repo.findById(id);
+
+        if (optionalPaper.isPresent()) {
+            NonRguktPaper paper = optionalPaper.get();
+            boolean exists = repo.existsByAcademicYearAndExamTypeAndSubjectNameAndIsAccepted(
+                    paper.getAcademicYear(), paper.getExamType(), paper.getSubjectName(), true
+            );
+
+            if (exists) {
+                System.out.println("yes exists..!");
+                return null;
+            }
+
+            paper.setAccepted(true); // Update isAccepted field
+            return repo.save(paper); // Save updated entity
+        } else {
+            throw new EntityNotFoundException("Question Paper not found with id: " + id);
+        }
+    }
 
     public NonRguktPaper saveNonRguktQuestionPaper(MultipartFile file, String academicYear, String subject, String examType, UserDTO userDTO, String filename, String campus,int semester,String branch)throws IOException {
         // Ensure upload directory exists

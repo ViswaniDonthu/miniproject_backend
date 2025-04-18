@@ -29,4 +29,6 @@ ResponseEntity<Map<String, Object>> verifyToken(@RequestBody Map<String, String>
     Optional<UserDTO> getUserByEmail(@RequestParam("email") String email);
     @GetMapping("/auth/extractUser")
     UserDTO extractUserByUserService(String token);
+    @GetMapping("/user/getDetails")
+    UserDTO getUserDetails(@RequestParam("id") Long id);
 }

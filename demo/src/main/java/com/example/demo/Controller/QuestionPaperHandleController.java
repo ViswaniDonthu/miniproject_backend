@@ -127,7 +127,7 @@ public class QuestionPaperHandleController {
             fileMap.put("semester", paper.getSemester());
             fileMap.put("examType", paper.getExamType());
             fileMap.put("status", "pending");
-
+            fileMap.put("nonrgukt",true);
             try {
                 File file = new File(paper.getFileUrl());
                 FileInputStream fis = new FileInputStream(file);
@@ -294,16 +294,32 @@ public class QuestionPaperHandleController {
                    .body(Map.of("message", "Invalid or expired token", "ok", false));
        }
         Long id= Long.valueOf(payload.get("id"));
-       QuestionPaper q=questionPaperService.updateStatus(id,true);
-       if(q==null){
-           return ResponseEntity.ok(Map.of("message","question paper already exists"));
-       }
-       System.out.println(q.getUploadedBy());
-       UserDTO u=q.getUploadedByUser();
+       Boolean nonrgukt= Boolean.valueOf(payload.get("nonrgukt"));
+       if(nonrgukt){
+          NonRguktPaper q=questionPaperService.updateStatusNonRgukt(id,true);
+           if(q==null){
+               return ResponseEntity.ok(Map.of("message","question paper already exists"));
+           }
+           System.out.println(q.getUploadedBy());
 
-       u.setContributions(u.getContributions()+1);
-       userClient.saveUser(u);
-       return ResponseEntity.ok().body(q);
+           UserDTO u=userClient.getUserDetails(q.getUploadedBy());
+
+           u.setContributions(u.getContributions()+1);
+           userClient.saveUser(u);
+           return ResponseEntity.ok().body(q);
+       }
+       else {
+           QuestionPaper q = questionPaperService.updateStatus(id, true);
+           if (q == null) {
+               return ResponseEntity.ok(Map.of("message", "question paper already exists"));
+           }
+           System.out.println(q.getUploadedBy());
+           UserDTO u = q.getUploadedByUser();
+
+           u.setContributions(u.getContributions() + 1);
+           userClient.saveUser(u);
+           return ResponseEntity.ok().body(q);
+       }
    }
 //    @DeleteMapping("/deletepaper/{id}")
 //    public ResponseEntity<?> deleteQuestionPaper(@PathVariable Long id) {
