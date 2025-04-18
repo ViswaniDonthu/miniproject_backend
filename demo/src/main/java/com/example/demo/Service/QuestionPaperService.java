@@ -38,29 +38,7 @@ public class QuestionPaperService {
   @Autowired
   private NonRguktQuestionPaperRepo repo;
 
-    //    @Transactional
-//    public QuestionPaper saveQuestionPaper(MultipartFile file, Academicyear academicyearid, Subject subjectid,
-//                                           String examType, User userid, String filename) throws IOException {
-//        // Ensure upload directory exists
-//        Files.createDirectories(Paths.get(UPLOAD_DIR));
-//
-//        // Construct the full file path using the provided filename
-//        String filePath = UPLOAD_DIR + filename;
-//
-//        // Save the file with the provided filename
-//        file.transferTo(new File(filePath));
-//
-//        // Create QuestionPaper entity
-//        QuestionPaper questionPaper = new QuestionPaper();
-//        questionPaper.setFileUrl(filePath);
-//        questionPaper.setExamType(examType);
-//        questionPaper.setAcademicyear(academicyearid);
-//        questionPaper.setSubject(subjectid);
-//        questionPaper.setUploadedBy(userid);
-//
-//        // Save metadata to DB
-//        return questionPaperRepository.save(questionPaper);
-//    }
+
     @Transactional
     public QuestionPaper saveQuestionPaper(MultipartFile file, Academicyear academicyearid, Subject subjectid,
                                            String examType, UserDTO userid, String filename, String campus) throws IOException {
